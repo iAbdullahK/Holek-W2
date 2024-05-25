@@ -6,6 +6,7 @@ import { storage } from '../lib/firebase';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { Button } from '../components/ui/button';
 import toast from 'react-hot-toast';
+import React from 'react';
 //need to fix !!
 interface ImagesUploadProps {
     disabled?: boolean;

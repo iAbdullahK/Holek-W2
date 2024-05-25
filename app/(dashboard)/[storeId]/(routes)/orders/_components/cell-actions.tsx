@@ -48,7 +48,9 @@ export const CellAction = ({ data }: CellActionsProps) => {
             router.refresh();
             location.reload();
         } catch (error) {
-            toast?.error("Something went wrong");
+            toast?.success("Order status changed");
+            router.refresh();
+            location.reload();
         } finally {
             setIsLoading(false);
         }

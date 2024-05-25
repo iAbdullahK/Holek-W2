@@ -1,6 +1,6 @@
 "use client"
 
-import { Billboards, Billboard } from '../../../../../../../types-db';
+import { Billboards } from '../../../../../../../types-db';
 import { Heading } from '../../../../../../../components/heading';
 import { Button } from "../../../../../../../components/ui/button";
 import { Trash } from "lucide-react";
@@ -18,6 +18,7 @@ import ImageUpload from '../../../../../../../components/image-upload';
 import { deleteObject, ref } from 'firebase/storage';
 import { storage } from '../../../../../../../lib/firebase';
 import toast from 'react-hot-toast';
+import React from 'react';
 
 
 interface BillboardFormProps {
@@ -34,8 +35,9 @@ export const BillboardForm = ({ initialData }: BillboardFormProps) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            defaulValues: initialData,
+        defaultValues: initialData ||{
+            label: "",
+            imageUrl: "",
         }
     });
 

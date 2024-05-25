@@ -4,6 +4,8 @@ export interface Store {
     id : string;
     name : string;
     userId : string;
+    description?: string;
+    image?: string;
     createdAt?: Timestamp;
     updatedAt?: Timestamp;
 }

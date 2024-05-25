@@ -1,6 +1,6 @@
 "use client"
 
-import { Billboards, Billboard } from '../../../../../../../types-db';
+import { Billboards } from '../../../../../../../types-db';
 import { Heading } from '../../../../../../../components/heading';
 import { Button } from "../../../../../../../components/ui/button";
 import { Trash } from "lucide-react";
@@ -35,7 +35,9 @@ export const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => 
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaulValues: initialData,
+        defaultValues: initialData || {
+            
+        },
 
     });
 

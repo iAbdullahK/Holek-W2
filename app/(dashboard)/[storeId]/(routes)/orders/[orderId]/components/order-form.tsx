@@ -28,18 +28,22 @@ interface OrdersFormProps {
 const formSchema = z.object({
     isPaid: z.string().optional(),
     order_status: z.string().optional(),
-    orderItems: z.string().min(1),
-    qty: z.coerce.number().min(1), //qty: z.coerce.number().optional() if you want to make it as optional
+    orderItems: z.array(z.string()).min(1), // Change to array of strings
+    qty: z.number().min(1), // Change to number
 });
 
+export const OrderForm = ({ initialData, products }: OrdersFormProps) => {
 
-export const OrderForm = ({
-    initialData, products,
-}: OrdersFormProps) => {
+    const defaultOrderItems = initialData.orderItems.map(item => item.name);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaulValues: initialData
+        defaultValues: {
+            isPaid: initialData.isPaid?.toString() || 'false', // Convert boolean to string
+            order_status: initialData.order_status || 'Processing', // Use initialData if provided
+            orderItems: defaultOrderItems,
+            qty: 0, // Assuming default qty is 0
+        },
     });
 
     const [isLoading, setIsLoading] = useState(false);
@@ -118,17 +122,16 @@ export const OrderForm = ({
 
                     <FormField
                         control={form.control}
-                        name="images"
+                        name="orderItems"
                         render={({ field }) => (
-                            <FormItem >
-                                <FormLabel className="text-purple-900"> Product Image</FormLabel>
+                            <FormItem>
+                                <FormLabel className="text-purple-900">Product Image</FormLabel>
                                 <FormControl>
                                     <ImageUpload
-                                        value={field.value ? [field.value] : []}
+                                        value={field.value || ""} // Ensure value is a string
                                         disabled={isLoading}
                                         onChanged={(url) => field.onChange(url)}
                                         onRemove={() => field.onChange("")}
-
                                     />
                                 </FormControl>
                             </FormItem>
@@ -183,14 +186,13 @@ export const OrderForm = ({
                                                 disabled={isLoading}
                                                 placeholder="0"
                                                 {...field}
-                                                value={field.value || (initialData ? initialData.qty : "")}
-                                            />
+                                                value={field.value || (initialData && 'qty' in initialData ? initialData.qty as number : 0)}
+                                                />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
                         }
-                        
                         <FormField
                             control={form.control}
                             name="orderItems"
@@ -201,18 +203,14 @@ export const OrderForm = ({
                                         <Select
                                             disabled={isLoading}
                                             onValueChange={field.onChange}
-                                            value={field.value}
-                                            defaultValue={field.value}
+                                            value={field.value && field.value.length > 0 ? field.value[0] : ''}
                                         >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue
-                                                        defaultValue={field.value}
-                                                        placeholder="Select a category"
-                                                        value={field.value || (initialData ? initialData.orderItems : "")}
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                    placeholder="Select a product"
+                                                    defaultValue={field.value && field.value.length > 0 ? field.value[0] : ''}
                                                     />
-                                                </SelectTrigger>
-                                            </FormControl>
+                                            </SelectTrigger>
                                             <SelectContent>
                                                 {products.map(product => (
                                                     <SelectItem key={product.id} value={product.name}>{product.name}</SelectItem>
@@ -223,6 +221,7 @@ export const OrderForm = ({
                                 </FormItem>
                             )}
                         />
+
 
                     </div>
 

@@ -1,17 +1,24 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { serverTimestamp, getDoc, doc, addDoc, collection, updateDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
 import { Product, Store } from '../../../../types-db';
 
-export const POST = async (req, { params }) => {
+interface Params {
+    storeId: string;
+    orderId: string;
+}
+
+export const POST = async (req: NextRequest, { params }: { params: Params }) => {
     try {
         const { userId } = auth();
-        const body = await req.json();
-
         if (!userId) {
-            return new NextResponse("Un-Authorized!!", { status: 405 });
+            return new NextResponse("Un-Authorized!!", { status: 401 });
         }
+
+        const { storeId } = params;
+
+        const body = await req.json();
 
         const { name, price, cal, image, category, qty } = body;
 
@@ -19,11 +26,11 @@ export const POST = async (req, { params }) => {
             return new NextResponse("Required fields are missing!", { status: 400 });
         }
 
-        if (!params.storeId) {
-            return new NextResponse("Store ID is missing!", { status: 405 });
+        if (!storeId) {
+            return new NextResponse("Store ID is missing!", { status: 400 });
         }
 
-        const storeDoc = await getDoc(doc(db, "stores", params.storeId));
+        const storeDoc = await getDoc(doc(db, "stores", storeId));
 
         if (!storeDoc.exists()) {
             return new NextResponse("Store not found!", { status: 404 });
@@ -31,7 +38,7 @@ export const POST = async (req, { params }) => {
 
         const storeData = storeDoc.data();
         if (storeData?.userId !== userId) {
-            return new NextResponse("Un-Authorized Access!", { status: 401 });
+            return new NextResponse("Un-Authorized Access!", { status: 403 });
         }
 
         const productData = {
@@ -44,15 +51,15 @@ export const POST = async (req, { params }) => {
             createdAt: serverTimestamp(),
         };
 
-        const productRef = await addDoc(collection(db, "stores", params.storeId, "products"), productData);
+        const productRef = await addDoc(collection(db, "stores", storeId, "products"), productData);
         const id = productRef.id;
 
-        await updateDoc(doc(db, "stores", params.storeId, "products", id), {
+        await updateDoc(doc(db, "stores", storeId, "products", id), {
             ...productData,
             id,
-            storeName: storeData.name, 
-            storeId: storeData.id,     
-            updatedAt: serverTimestamp()
+            storeName: storeData.name,
+            storeId: storeData.id,
+            updatedAt: serverTimestamp(),
         });
 
         return new NextResponse(JSON.stringify({ id, ...productData }), { status: 200 });
@@ -62,7 +69,7 @@ export const POST = async (req, { params }) => {
     }
 };
 
-export const GET = async ({ params }: { params: { storeId: string } }) => {
+export const GET = async (req: NextRequest, { params }: { params: Params }) => {
     try {
         if (!params.storeId) {
             return new NextResponse("Store ID is missing!", { status: 402 });

@@ -4,9 +4,13 @@ import React, { useEffect } from 'react';
 import { db } from '../../../../lib/firebase';
 import { doc, getDoc, updateDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 
-const GeolocationUpdater = ({ storeId }) => {
+interface GeolocationUpdaterProps {
+  storeId: string;
+}
+
+const GeolocationUpdater = ({ storeId }: GeolocationUpdaterProps) => {
   useEffect(() => {
-    const updateLocation = async (lat, lng) => {
+    const updateLocation = async (lat: number, lng: number) => {
       const docRef = doc(db, "stores", storeId);
       const docSnap = await getDoc(docRef);
 

@@ -85,65 +85,56 @@ export const PATCH = async (
   }
 };
 
+export const DELETE = async (
+  req: Request,
+  { params }: { params: { storeId: string; orderId: string } }
+): Promise<NextResponse> => {
+  try {
+      const { userId } = auth();
+      if (!userId) {
+          return new NextResponse("Unauthorized", { status: 401 });
+      }
 
+      const { storeId, orderId } = params;
 
-  export const DELETE = async (
-    req: Request,
-    { params }: { params: { storeId: string; orderId: string } }
-) => {
-    try {
-        const { userId } = auth();
+      if (!storeId || !orderId) {
+          return new NextResponse("Store Id and Order Id are required", { status: 400 });
+      }
 
-        console.log("userId:", userId);
-        console.log("params.storeId:", params.storeId);
-        console.log("params.orderId:", params.orderId);
+      console.log("Deleting order:", orderId, "from store:", storeId);
 
-        if (!userId) {
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
+      const storeRef = doc(db, "stores", storeId);
+      const storeSnapshot = await getDoc(storeRef);
+      if (!storeSnapshot.exists()) {
+          return new NextResponse("Store Not Found", { status: 404 });
+      }
 
-        if (!params.storeId) {
-            return new NextResponse("Store Id is required", { status: 400 });
-        }
+      const storeData = storeSnapshot.data();
+      if (storeData?.userId !== userId) {
+          return new NextResponse("Unauthorized Access", { status: 403 });
+      }
 
-        if (!params.orderId) {
-            return new NextResponse("Order Id is required", { status: 400 });
-        }
+      const ordersCollectionRef = collection(db, "stores", storeId, "orders");
+      const querySnapshot = await getDocs(ordersCollectionRef);
 
-        const storeRef = doc(db, "stores", params.storeId);
-        const store = await getDoc(storeRef);
+      let foundOrder = false;
+      querySnapshot.forEach(async (doc) => {
+          const orderData = doc.data();
+          if (orderData.id === orderId) {
+              foundOrder = true;
+              await deleteDoc(doc.ref);
+              console.log("Order deleted:", orderId);
+          }
+      });
 
-        if (!store.exists()) {
-            return new NextResponse("Store Not Found", { status: 404 });
-        }
+      if (!foundOrder) {
+          return new NextResponse("Order Not Found", { status: 404 });
+      }
 
-        const storeData = store.data();
-        if (storeData?.userId !== userId) {
-            return new NextResponse("Unauthorized Access", { status: 403 });
-        }
-
-        const ordersCollectionRef = collection(db, "stores", params.storeId, "orders");
-        const querySnapshot = await getDocs(ordersCollectionRef);
-        let foundOrder = false;
-
-        querySnapshot.forEach((doc) => {
-            const orderData = doc.data();
-            if (orderData.id === params.orderId) {
-                foundOrder = true;
-                console.log(`Deleting document with ID ${params.orderId} in store ${params.storeId}`);
-                deleteDoc(doc.ref);
-            }
-        });
-
-        if (!foundOrder) {
-            console.log(`Order with ID ${params.orderId} not found in store ${params.storeId}`);
-            return new NextResponse("Order Not Found", { status: 404 });
-        }
-
-        console.log(`Successfully deleted document with ID ${params.orderId} in store ${params.storeId}`);
-        return new NextResponse("Order Deleted", { status: 200 });
-    } catch (error) {
-        console.log(`[ORDER_DELETE] : ${error.message}`);
-        return new NextResponse("Internal Server Error", { status: 500 });
-    }
+      console.log("Order successfully deleted:", orderId);
+      return new NextResponse("Order Deleted", { status: 200 });
+  } catch (error: any) {
+      console.error("[ORDER_DELETE] Error:", error.message);
+      return new NextResponse("Internal Server Error", { status: 500 });
+  }
 };

@@ -1,4 +1,5 @@
 "use client";
+
 import { Store } from "../../../../../../types-db";
 import { Heading } from '../../../../../../components/heading';
 import { Button } from "../../../../../../components/ui/button";
@@ -14,9 +15,10 @@ import { AlertModel } from "../../../../../../components/model/alert-model";
 import { useOrigin } from '../../../../../../hooks/use-origin';
 import React, { useState, useEffect } from "react";
 import ImageUpload from '../../../../../../components/image-upload';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from "../../../../../../lib/firebase";
 import toast from 'react-hot-toast';
+import { doc, updateDoc } from 'firebase/firestore';
+
 
 interface SettingsFormProps {
     initialData: Store;
@@ -43,29 +45,36 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
     const router = useRouter();
     const origin = useOrigin();
 
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
             setIsLoading(true);
-            const response = await axios.patch(`/api/stores/${params.storeId}`, data);
-            toast?.success("Store Updated");
-            setSuccessMessage("Description and image added successfully"); // Set success message
+    
+            const storeId = Array.isArray(params.storeId) ? params.storeId[0] : params.storeId;
+    
+            await axios.patch(`/api/stores/${storeId}`, data);
+            toast.success("Store Updated");
+    
             // Update description and image in Firebase
-            await updateDoc(doc(db, "stores", params.storeId), {
+            const storeRef = doc(db, "stores", storeId);
+            await updateDoc(storeRef, {
                 description: data.description,
                 image: data.image,
             });
-            router.refresh();
+    
+            setSuccessMessage("Description and image added successfully");
+            router.refresh(); // Refresh the router to get the latest data
+    
         } catch (error) {
-            toast?.error("Something went wrong");
+            toast.error("Something went wrong");
+            console.error(error); // Log error for debugging
         } finally {
             setIsLoading(false);
         }
     };
+    
 
-    const handleImageError = (error) => {
-        console.error("Image load error: ", error);
-        toast?.error("Failed to load image. Please check the URL or upload a new image.");
-    };
+
 
     return (
         <>
@@ -90,7 +99,6 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
                                     disabled={isLoading}
                                     onChanged={(url) => field.onChange(url)}
                                     onRemove={() => field.onChange("")}
-                                    onError={handleImageError}
                                 />
                             </FormControl>
                             <FormMessage />
