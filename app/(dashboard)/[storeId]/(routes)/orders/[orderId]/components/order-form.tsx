@@ -11,12 +11,13 @@ import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../../../../components/ui/form";
 import { Input } from "../../../../../../../components/ui/input";
-import { toast } from '../../../../../../../providers/toast-provider';
 import axios from 'axios';
 import { AlertModel } from "../../../../../../../components/model/alert-model";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../../../../../components/ui/select';
 import { Product, Order } from '../../../../../../../types-db';
 import ImageUpload from '../../../../../../../components/image-upload';
+import toast from 'react-hot-toast';
+import React from 'react';
 
 
 interface OrdersFormProps {

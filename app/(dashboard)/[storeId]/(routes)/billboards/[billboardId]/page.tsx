@@ -2,6 +2,7 @@ import { getDoc, doc } from 'firebase/firestore';
 import { db } from '../../../../../../lib/firebase';
 import { BillboardForm } from './components/billboard-form';
 import { Billboards } from '../../../../../../types-db';
+import React from 'react';
 
 const BillboardPage = async (
     {params} : {params :  

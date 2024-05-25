@@ -12,12 +12,12 @@ import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../../../../components/ui/form";
 import { Input } from "../../../../../../../components/ui/input";
-import { toast } from '../../../../../../../providers/toast-provider';
 import axios from 'axios';
 import { AlertModel } from "../../../../../../../components/model/alert-model";
 import ImageUpload from '../../../../../../../components/image-upload';
 import { deleteObject, ref } from 'firebase/storage';
 import { storage } from '../../../../../../../lib/firebase';
+import toast from 'react-hot-toast';
 
 
 interface BillboardFormProps {

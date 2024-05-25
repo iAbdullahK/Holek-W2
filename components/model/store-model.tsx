@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react";
 import { Model } from "../../components/model";
 import { useStoreModel } from "../../hooks/use-store-model";
@@ -10,7 +11,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from "axios";
 import { Button } from "../../components/ui/button";
-import { toast } from '../../providers/toast-provider';
+import toast from 'react-hot-toast';
 
 const formSchema = z.object({
     name: z.string().min(3, { message: "Foodtruck name should be minimum 3 characters" }),

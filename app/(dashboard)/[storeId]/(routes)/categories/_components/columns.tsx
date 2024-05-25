@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Button } from '../../../../../../components/ui/button';
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { CellAction } from './cell-actions';
+import React from "react";
 
 export type CategoryColumns = {
   id: string,

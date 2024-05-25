@@ -4,7 +4,8 @@ import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
 import { Badge, BadgeProps } from '../components/ui/badge';
 import { Server, Copy } from "lucide-react"
 import { Button } from '../components/ui/button';
-import { toast } from '../providers/toast-provider';
+import toast from 'react-hot-toast';
+import React from 'react';
 
 
 interface ApiAlertProps {
@@ -19,7 +20,7 @@ const textMap: Record<ApiAlertProps["variant"], string> = {
 };
 
 const variantMap: Record<ApiAlertProps["variant"], BadgeProps["variant"]> = {
-    public: "scondary",
+    public: "secondary",
     admin: "destructive",
 };
 

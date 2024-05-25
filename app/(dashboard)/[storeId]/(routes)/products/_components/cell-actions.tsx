@@ -5,12 +5,11 @@ import { useState } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuLabel, } from '../../../../../../components/ui/dropdown-menu';
 import { Button } from '../../../../../../components/ui/button';
 import { MoreVertical, Copy, Trash, Edit } from 'lucide-react';
-import { toast } from '../../../../../../providers/toast-provider';
-
 import axios from 'axios';
 import { AlertModel } from '../../../../../../components/model/alert-model';
 import { ProductColumns } from './columns';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 interface CellActionsProps {
     data: ProductColumns

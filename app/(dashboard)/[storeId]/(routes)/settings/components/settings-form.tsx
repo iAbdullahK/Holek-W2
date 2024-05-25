@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams, useRouter } from 'next/navigation';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../../../components/ui/form";
 import { Input } from "../../../../../../components/ui/input";
-import { toast } from '../../../../../../providers/toast-provider';
 import axios from 'axios';
 import { AlertModel } from "../../../../../../components/model/alert-model";
 import { useOrigin } from '../../../../../../hooks/use-origin';
@@ -17,6 +16,7 @@ import React, { useState, useEffect } from "react";
 import ImageUpload from '../../../../../../components/image-upload';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from "../../../../../../lib/firebase";
+import toast from 'react-hot-toast';
 
 interface SettingsFormProps {
     initialData: Store;

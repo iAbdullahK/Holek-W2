@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { PuffLoader } from "react-spinners";
 import { Label } from '../components/ui/label';
 import { ImagePlus, Trash } from 'lucide-react';
-import { toast } from '../providers/toast-provider';
 import { storage } from '../lib/firebase';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { Button } from '../components/ui/button';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 interface ImageUploadProps {
     disabled?: boolean;
