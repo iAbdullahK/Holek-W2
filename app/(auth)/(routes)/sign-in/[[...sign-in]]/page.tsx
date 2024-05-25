@@ -8,7 +8,7 @@ export default function SignInPage() {
       <SignIn path="/sign-in" />
       <div className="text-white text-lg mt-8 font-semibold">About Us</div>
       <div className="text-white text-sm mb-2 max-w-md text-center">
-        Holek is your all-in-one solution for managing your food truck business. From order management to inventory tracking, we've got you covered. With our intuitive web-based Point of Sale system, you can efficiently manage your sales and streamline your operations.
+        Holek is your all-in-one solution for managing your food truck business. From order management to inventory tracking, we&apos;ve got you covered. With our intuitive web-based Point of Sale system, you can efficiently manage your sales and streamline your operations.
       </div>
     </div>
   );
