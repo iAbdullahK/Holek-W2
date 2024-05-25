@@ -1,11 +1,12 @@
 import { getDocs, collection, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db } from '../../../../../lib/firebase';
 import { format } from "date-fns";
 import { OrdersColumns } from "./_components/columns";
-import { formatter } from '@/lib/utils';
+import { formatter } from '../../../../../lib/utils';
 import { OrdersClient } from './_components/client';
-import { Order } from '@/types-db';
-import { Separator } from '@/components/ui/separator';
+import { Order } from '../../../../../types-db';
+import { Separator } from '../../../../../components/ui/separator';
+import React from 'react';
 
 const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
     const ordersData = (
@@ -15,8 +16,9 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
     const formattedOrders: OrdersColumns[] = ordersData.map(item => ({
         id: item.id,
         isPaid: item.isPaid,
+        orderNumber: item.orderNumber,
+        qty: item.orderItems.map(item => item.qty).join(", "),
         products: item.orderItems.map(item => item.name).join(", "),
-        phone: item.phone,
         order_status: item.order_status,
         totalPrice: formatter.format(
             item.orderItems.reduce((total, item) => {
@@ -26,8 +28,8 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
                 return total
             }, 0),
         ),
-        images: item.orderItems.map(item => item.image),
-        createdAt: item.createdAt ? format(item?.createdAt.toDate(), "MMMM do, yyyy") : ""
+        images: item.orderItems.map(item => item.image).join(", "),
+        createdAt: item.createdAt ? format(item?.createdAt.toDate(), "MMMM do, yyyy h:mm a") : ""
     }));
 
     return (

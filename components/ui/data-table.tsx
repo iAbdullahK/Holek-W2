@@ -1,8 +1,8 @@
 "use client"
 
-import { Button } from '@/components/ui/button';
+import { Button } from '../../components/ui/button';
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { Input } from '../../components/ui/input';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -22,7 +22,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "../../components/ui/table"
+import React from 'react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

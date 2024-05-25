@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Button } from '@/components/ui/button';
+import { Button } from '../../../../../../components/ui/button';
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { CellAction } from './cell-actions';
 

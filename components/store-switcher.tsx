@@ -1,16 +1,16 @@
 "use client"
 
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { useParams, useRouter } from "@/node_modules/next/navigation";
-import { Store } from "@/type-db";
+import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover"
+import { useParams, useRouter } from "next/navigation";
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
-import { cn } from "@/lib/utils";
-import { ChevronsUpDown, Check, Store as StoreIcon } from "lucide-react"; // Import icons
+import { Button } from '../components/ui/button';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "../components/ui/command";
+import { ChevronsUpDown, Check, TruckIcon } from "lucide-react"; // Import icons
 import { StoreListItem } from "./store-list-item";
 import { useStoreModel } from '../hooks/use-store-model';
 import { CreateNewStoreItem } from './create-store-item';
+import { Store } from '../types-db';
+import React from "react";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
@@ -61,21 +61,26 @@ export const StoreSwitcher = ({ items }: StoreSwitcherProps) => {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          <StoreIcon className="mr-2 h-4 w-4" />
+          <TruckIcon className="mr-2 h-4 w-4" />
           {currentStore?.value
             ? formattedStores?.find((framework) => framework.value === currentStore.value)?.label
-            : "Select Store..."}
+            : "Select Foodtruck..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <div className="w-full px-2 py-4 flex items-center border rounded-md border-gray-100" >
-            <StoreIcon className="mr-2 h-4 w-4 min-w-12" />
-            <input type="text" placeholder="Search Store..." onChange={handleSearchTerm} className="flex-1 w-full outline-none" />
+            <TruckIcon className="mr-2 h-4 w-1 min-w-9" />
+            <input
+              type="text"
+              placeholder="Search Foodtruck..."
+              onChange={handleSearchTerm}
+              className="outline-none px-2 py-1 text-sm w-56"
+            />
           </div>
           <CommandList>
-            <CommandGroup heading="Stores">
+            <CommandGroup heading="Foodtrucks">
               {searchTerm === "" ? (
                 formattedStores.map((item, i) => (
                   <StoreListItem store={item} key={i} onSelect={onStoreSelect} isChecked={currentStore?.value == item.value} />
@@ -84,7 +89,7 @@ export const StoreSwitcher = ({ items }: StoreSwitcherProps) => {
                 filterd.map((item, i) => (
                   <StoreListItem store={item} key={i} onSelect={onStoreSelect} isChecked={currentStore?.value == item.value} />
                 ))
-              ) : <CommandEmpty>No Store Found</CommandEmpty>}
+              ) : <CommandEmpty>No Foodtruck Found</CommandEmpty>}
             </CommandGroup>
           </CommandList>
           <CommandSeparator />

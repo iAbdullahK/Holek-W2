@@ -1,4 +1,4 @@
-import {db} from "@/lib/firebase";
+import {db} from "../lib/firebase";
 import { collection, doc, getDocs} from "firebase/firestore";
 
 export const getTotalProducts = async (storeId: string) => {

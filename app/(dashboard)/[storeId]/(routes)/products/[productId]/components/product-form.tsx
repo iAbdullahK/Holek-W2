@@ -1,28 +1,27 @@
-"use client"
+"use client";
 
-import { Heading } from '@/components/heading';
-import { Button } from "@/components/ui/button";
+import { Heading } from '../../../../../../../components/heading';
+import { Button } from "../../../../../../../components/ui/button";
 import { Trash } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "../../../../../../../components/ui/separator";
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from '@/providers/toast-provider';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../../../../components/ui/form";
+import { Input } from "../../../../../../../components/ui/input";
+import { toast } from '../../../../../../../providers/toast-provider';
 import axios from 'axios';
-import { AlertModel } from "@/components/model/alert-model";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Product, Category} from '@/types-db';
-import ImageUpload from '@/components/image-upload';
-
+import { AlertModel } from "../../../../../../../components/model/alert-model";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../../../../../components/ui/select';
+import { Product, Category } from '../../../../../../../types-db';
+import ImageUpload from '../../../../../../../components/image-upload';
+import React from 'react';
 
 interface ProductFormProps {
     initialData: Product;
-    categories: Category[],
-
+    categories: Category[];
 }
 
 const formSchema = z.object({
@@ -30,24 +29,21 @@ const formSchema = z.object({
     price: z.coerce.number().min(1),
     image: z.string().min(1),
     category: z.string().min(1),
-    qty: z.coerce.number().min(1),
+    qty: z.coerce.number().default(1), 
+    cal: z.coerce.number().optional(), 
 });
 
-
-export const ProductForm = ({ 
-    initialData, categories,
- }: ProductFormProps) => {
-
+export const ProductForm = ({ initialData, categories }: ProductFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaulValues: initialData||{
+        defaultValues: initialData || {
             name: "",
             price: 0,
-            image: "", 
+            image: "",
             category: "",
-            qty: 0,
+            qty: 1, 
+            cal: 0,
         },
-
     });
 
     const [isLoading, setIsLoading] = useState(false);
@@ -56,22 +52,17 @@ export const ProductForm = ({
     const router = useRouter();
 
     const title = initialData ? "Edit Product" : "Create Product";
-    const description = initialData ? "Edit a Product" : "Add a new Product"
+    const description = initialData ? "Edit a Product" : "Add a new Product";
     const toastMessage = initialData ? "Product Updated!" : "Product Created!";
     const action = initialData ? "Save Changes" : "Create Product";
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
             setIsLoading(true);
-
             if (initialData) {
-                await axios.patch(`/api/${params.storeId}/products/${params.productId}`,
-                    data,
-                );
+                await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data);
             } else {
-                await axios.post(`/api/${params.storeId}/products`,
-                    data,
-                );
+                await axios.post(`/api/${params.storeId}/products`, data);
             }
             toast?.success(toastMessage);
             router.refresh();
@@ -79,18 +70,15 @@ export const ProductForm = ({
         } catch (error) {
             toast?.error("Something went wrong");
         } finally {
-            router.refresh();
-            setIsLoading(false);  
+            setIsLoading(false);
         }
     };
 
     const onDelete = async () => {
         try {
             setIsLoading(true);
-
             await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
             toast?.success("Product Removed");
-            location.reload();
             router.push(`/${params.storeId}/products`);
         } catch (error) {
             toast?.error("Something went wrong");
@@ -113,31 +101,29 @@ export const ProductForm = ({
                     <Heading title={title} description={description} />
                 </div>
                 {initialData && (
-                    <Button disabled={isLoading} variant={"destructive"} size={"icon"} onClick={() => setOpen(true)} >
+                    <Button disabled={isLoading} variant={"destructive"} size={"icon"} onClick={() => setOpen(true)}>
                         <Trash className="h-4 w-4" />
                     </Button>
                 )}
             </div>
-    
+
             <Separator className="bg-purple-700" />
-    
+
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
-                    
-                <FormField
+                    <FormField
                         control={form.control}
                         name="image"
                         render={({ field }) => (
-                            <FormItem >
-                                <FormLabel className="text-purple-900"> Product Image</FormLabel>
+                            <FormItem>
+                                <FormLabel className="text-purple-900">Product Image</FormLabel>
                                 <FormControl>
-                                    <ImageUpload 
+                                    <ImageUpload
                                         value={field.value ? [field.value] : []}
                                         disabled={isLoading}
                                         onChanged={(url) => field.onChange(url)}
-                                        onRemove={() => field.onChange("")} 
-                                        
-                                        />
+                                        onRemove={() => field.onChange("")}
+                                    />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -151,88 +137,64 @@ export const ProductForm = ({
                                         disabled={isLoading}
                                         placeholder="Your product name.."
                                         {...field}
-                                        value={field.value || (initialData ? initialData.name : "")}
-
                                     />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                         />
-                        
-                        <FormField 
-                            control={form.control}
-                            name="price"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel className="text-purple-900">Price</FormLabel>
-                                    <FormControl>
-                                        <Input 
-                                            type="number"
-                                            disabled={isLoading}
-                                            placeholder="0"
-                                            {...field}
-                                            value={field.value || (initialData ? initialData.price : "")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />                
-    
-                        <FormField 
-                            control={form.control}
-                            name="qty"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel className="text-purple-900">Quantity</FormLabel>
-                                    <FormControl>
-                                        <Input 
-                                            type="number"
-                                            disabled={isLoading}
-                                            placeholder="0"
-                                            {...field}
-                                            value={field.value || (initialData ? initialData.qty : "")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />   
-                        
-                        <FormField 
-                            control={form.control}
-                            name="category"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel className="text-purple-900">Category</FormLabel>
-                                    <FormControl>
-                                        <Select
-                                            disabled={isLoading}
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={field.value}
-                                                        placeholder="Select a category"
-                                                        value={field.value || (initialData ? initialData.category : "")}
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {categories.map(category => (
-                                                    <SelectItem key={category.id} value={category.name}>{category.name}</SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />             
-    
+                        <FormField control={form.control} name="price" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-purple-900">Price</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        type="number"
+                                        disabled={isLoading}
+                                        placeholder="0"
+                                        {...field}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                        />
+                        <FormField control={form.control} name="cal" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-purple-900">Calories</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        type="number"
+                                        disabled={isLoading}
+                                        placeholder="0"
+                                        {...field}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                        />
+                        <FormField control={form.control} name="category" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-purple-900">Category</FormLabel>
+                                <FormControl>
+                                    <Select
+                                        disabled={isLoading}
+                                        onValueChange={field.onChange}
+                                        value={field.value}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a category" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {categories.map(category => (
+                                                <SelectItem key={category.id} value={category.name}>{category.name}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </FormControl>
+                            </FormItem>
+                        )}
+                        />
                     </div>
-    
+
                     <Button disabled={isLoading} type="submit" className="bg-purple-700 hover:bg-purple-800 text-white py-2 px-4 rounded">
                         {action}
                     </Button>
@@ -240,8 +202,6 @@ export const ProductForm = ({
             </Form>
         </>
     );
-    
-    
-}
+};
 
 export default ProductForm;

@@ -1,9 +1,10 @@
-import { redirect } from "@/node_modules/next/navigation";
+import { redirect } from "../../../node_modules/next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import { collection, getDocs, query, where} from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { Store } from "@/type-db";
-import { Navbar } from "@/components/navbar";
+import { db } from "../../../lib/firebase";
+import { Store } from "../../../types-db";
+import { Navbar } from "../../../components/navbar";
+import React from "react";
 
 interface DashboardLayoutProps{
     children : React.ReactNode,

@@ -1,21 +1,23 @@
 
 import { getDoc, doc, getDocs, collection } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Product, Category } from '@/types-db';
-import ProductForm from './components/product-form';
+import { db } from '../../../../../../lib/firebase';
+import { OrderForm } from './components/order-form';
+import { Order, Product } from '../../../../../../types-db';
+import React from 'react';
 
-const ProductPage = async (
+const OrderPage = async (
     {params} : {params :  
-        {productId : string, storeId : string,  }}) => {
-            //const product = (await getDoc(doc(db, "stores", params.storeId, "orders", params.productId))).data() as Product;
+        {orderId : string, storeId : string,  }}) => {
+            const order = (await getDoc(doc(db, "stores", params.storeId, "orders", params.orderId))).data() as Order;
 
-           // const categoriesData = (await getDocs(collection(doc(db, "stores", params.storeId), "categories"))).docs.map(doc => doc?.data()) as Category[];
+            const ProductsData = (await getDocs(collection(doc(db, "stores", params.storeId), "products"))).docs.map(doc => doc?.data()) as Product[];
     return ( 
     <div className='flex-col'>
         <div className="flex-1 space-y-4 p-8 pt-6">
+            <OrderForm initialData = {order} products={ProductsData} />
         </div>
     </div> 
     );
 }
  
-export default ProductPage;
+export default OrderPage;

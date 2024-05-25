@@ -1,8 +1,8 @@
-import { NextResponse } from '@/node_modules/next/server';
+import { NextResponse } from '../../../../../node_modules/next/server';
 import { auth } from '@clerk/nextjs/server';
 import { serverTimestamp, getDoc, doc, addDoc, collection, updateDoc, getDocs, deleteDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Billboards } from '@/types-db';
+import { db } from '../../../../../lib/firebase';
+import { Billboards } from '../../../../../types-db';
 
 
 export const PATCH = async (req : Request,

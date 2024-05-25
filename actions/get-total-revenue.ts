@@ -1,6 +1,6 @@
 import { getDocs, collection, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Order } from '@/types-db';
+import { db } from '../lib/firebase';
+import { Order } from '../types-db';
 export const getTotalRevenue = async (storeId: string) => {
 
     const ordersData= (

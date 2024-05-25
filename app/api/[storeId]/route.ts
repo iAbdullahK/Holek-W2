@@ -1,9 +1,9 @@
-import { NextResponse } from "@/node_modules/next/server";
+import { NextResponse } from "../../../node_modules/next/server";
 import { auth } from "@clerk/nextjs/server";
 import { updateDoc, doc, getDoc, deleteDoc } from 'firebase/firestore';
 
-import { db } from "@/lib/firebase";
-import { Store } from '@/types-db';
+import { db } from "../../../lib/firebase";
+import { Store } from '../../../types-db';
 
 export const PATCH = async (req: Request, {params} : {params : {storeId: string}}) => {
     try {
@@ -70,4 +70,3 @@ export const DELETE = async (req: Request, {params} : {params : {storeId: string
         return new NextResponse("Internal Server Error", { status: 500 });
     }
 };
-

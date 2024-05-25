@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation';
-import { Store } from "@/types-db";
+import { Store } from '../../types-db';
 import { auth } from '@clerk/nextjs/server';
 import { query, collection, where, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db } from '../../lib/firebase';
+import React from 'react';
 
 
 interface SetUpLayoutProp{

@@ -1,5 +1,5 @@
-import { db } from "@/lib/firebase";
-import { Category, Order } from "@/types-db";
+import { db } from "../lib/firebase";
+import { Category, Order } from "../types-db";
 import { collection, doc, getDocs } from "firebase/firestore";
 
 interface GraphData {

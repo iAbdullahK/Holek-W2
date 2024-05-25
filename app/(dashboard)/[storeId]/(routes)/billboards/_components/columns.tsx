@@ -2,9 +2,10 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellImage } from "./cell-image"
-import { Button } from '@/components/ui/button';
+import { Button } from '../../../../../../components/ui/button';
 import { ArrowUpDown } from "lucide-react"
 import { CellAction } from './cell-actions';
+import React from "react";
 
 export type BillboardColumns = {
     id: string,

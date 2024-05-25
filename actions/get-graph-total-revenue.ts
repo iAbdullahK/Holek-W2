@@ -1,6 +1,6 @@
 import { collection, getDocs, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Order } from '@/types-db';
+import { db } from '../lib/firebase';
+import { Order } from '../types-db';
 interface GraphData {
     name: string,
     total: number,

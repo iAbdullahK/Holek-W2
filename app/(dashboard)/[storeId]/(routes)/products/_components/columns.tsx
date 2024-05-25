@@ -1,17 +1,19 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Button } from '@/components/ui/button';
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { Button } from '../../../../../../components/ui/button';
+import { ArrowUpDown } from "lucide-react"
 import { CellAction } from './cell-actions';
 import { CellImage } from './cell-image';
+import React from "react";
 
 
 export type ProductColumns = {
     id: string,
     name: string,
     price: string,
-    qty? : string,
+    cal: string,
+    qty: string,
     image: string,
     category: string,
     createdAt: string;
@@ -47,8 +49,12 @@ export const columns: ColumnDef<ProductColumns>[] = [
     header: "Category"
   },
   {
-    accessorKey: "qty",
-    header: "Quantity"
+    accessorKey: "cal",
+    header: "Calories",
+    cell: ({ row }) => {
+        const { cal } = row.original;
+        return `${cal} cal`;
+    }
   },
   {
     accessorKey: "price",

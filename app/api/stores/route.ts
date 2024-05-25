@@ -1,8 +1,8 @@
-import { NextResponse } from "@/node_modules/next/server";
+import { NextResponse } from "../../../node_modules/next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getFirestore, serverTimestamp, addDoc, collection, updateDoc, doc } from "firebase/firestore";
 
-import { db } from "@/lib/firebase";
+import { db } from "../../../lib/firebase";
 
 export const POST = async (req: Request) => {
     try {

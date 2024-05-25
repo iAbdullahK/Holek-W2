@@ -1,8 +1,9 @@
 
 import { getDoc, doc, getDocs, collection } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Category, Billboards } from '@/types-db';
+import { db } from '../../../../../../lib/firebase';
+import { Category, Billboards } from '../../../../../../types-db';
 import { CategoryForm } from './components/category-form';
+import React from 'react';
 
 const CategoryIdPage = async (
     {params} : {params :  

@@ -2,11 +2,12 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import {Plus} from "lucide-react";
-import { Button } from '@/components/ui/button';
-import { Heading } from '@/components/heading';
-import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
+import { Button } from '../../../../../../components/ui/button';
+import { Heading } from '../../../../../../components/heading';
+import { Separator } from "../../../../../../components/ui/separator";
+import { DataTable } from "../../../../../../components/ui/data-table";
 import { columns, BillboardColumns } from './columns';
+import React from 'react';
 
 
 interface BillboardClientProps{
@@ -24,7 +25,7 @@ export const BillboardClient = ({data}: BillboardClientProps) => {
         <div className='flex items-center justify-between'>
           <Heading
             title={`Billboards (${data.length})`}
-            description="Manage billboards for your store"
+            description="Manage billboards for your foodtruck"
           />
           <Button
             onClick={() => router.push(`/${params.storeId}/billboards/create`)}

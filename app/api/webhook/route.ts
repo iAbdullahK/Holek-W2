@@ -1,14 +1,14 @@
 import Stripe from "stripe";
 import { headers } from "next/headers";
-import { NextResponse } from "@/node_modules/next/server";
-import { stripe } from "@/lib/stripe";
+import { NextResponse } from "../../../node_modules/next/server";
+import { stripe } from "../../../lib/stripe";
 import { addDoc,
     collection,
     doc,
     serverTimestamp,
     updateDoc,
      } from 'firebase/firestore';
-import { db } from "@/lib/firebase";
+import { db } from "../../../lib/firebase";
 import { metadata } from '../../layout';
 
 export const POST = async (req: Request) => {

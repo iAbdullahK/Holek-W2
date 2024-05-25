@@ -2,10 +2,11 @@ import { UserButton } from '@clerk/nextjs';
 import { MainNav } from './main-nav';
 import { StoreSwitcher } from './store-switcher';
 import { auth } from '@clerk/nextjs/server';
-import { redirect } from '@/node_modules/next/navigation';
+import { redirect } from '../node_modules/next/navigation';
 import { getDocs, query, collection, where } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Store } from '@/type-db';
+import { db } from '../lib/firebase';
+import { Store } from '../types-db';
+import React from 'react';
 
 
 export const Navbar = async () => {

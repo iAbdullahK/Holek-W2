@@ -1,10 +1,11 @@
 import { BillboardClient } from "./_components/client";
 import { getDocs, collection, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Billboards } from "@/types-db";
+import { db } from '../../../../../lib/firebase';
+import { Billboards } from "../../../../../types-db";
 import { BillboardColumns } from './_components/columns';
 import { format } from "date-fns"
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '../../../../../components/ui/separator';
+import React from "react";
 
 const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
 
@@ -16,7 +17,7 @@ const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
         id: item.id,
         label: item.label,
         imageUrl: item.imageUrl,
-        createdAt: item.createdAt ? format(item.createdAt.toDate(), "MMMM do, yyyy") : ""
+        createdAt: item.createdAt ? format(item?.createdAt.toDate(), "MMMM do, yyyy h:mm a") : ""
     }))
 
     return <>

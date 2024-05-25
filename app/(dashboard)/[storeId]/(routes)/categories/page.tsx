@@ -1,10 +1,11 @@
 import { CategoryClient } from './_components/client';
 import { getDocs, collection, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Category } from "@/types-db";
+import { db } from '../../../../../lib/firebase';
+import { Category } from "../../../../../types-db";
 import { format } from "date-fns";
 import { CategoryColumns } from './_components/columns';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '../../../../../components/ui/separator';
+import React from 'react';
 
 const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
     const categoriesData = (
@@ -15,7 +16,7 @@ const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
         id: item.id,
         billboardLabel: item.billboardLabel,
         name: item.name,
-        createdAt: item.createdAt ? format(item?.createdAt.toDate(), "MMMM do, yyyy") : ""
+        createdAt: item.createdAt ? format(item?.createdAt.toDate(), "MMMM do, yyyy h:mm a") : ""
     }));
 
     return (

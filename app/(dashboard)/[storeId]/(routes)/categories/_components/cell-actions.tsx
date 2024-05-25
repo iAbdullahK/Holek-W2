@@ -1,16 +1,17 @@
 "use client"
 
 import { CategoryColumns } from './columns';
-import { useRouter, useParams } from '@/node_modules/next/navigation';
+import { useRouter, useParams } from '../../../../../../node_modules/next/navigation';
 import { useState } from 'react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuLabel, } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuLabel, } from '../../../../../../components/ui/dropdown-menu';
+import { Button } from '../../../../../../components/ui/button';
 import { MoreVertical, Copy, Trash, Edit } from 'lucide-react';
-import { toast } from '@/providers/toast-provider';
+import { toast } from '../../../../../../providers/toast-provider';
 import { deleteObject, ref } from 'firebase/storage';
-import { storage } from '@/lib/firebase';
+import { storage } from '../../../../../../lib/firebase';
 import axios from 'axios';
-import { AlertModel } from '@/components/model/alert-model';
+import { AlertModel } from '../../../../../../components/model/alert-model';
+import React from 'react';
 
 interface CellActionsProps {
     data: CategoryColumns

@@ -2,11 +2,12 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import {Plus} from "lucide-react";
-import { Button } from '@/components/ui/button';
-import { Heading } from '@/components/heading';
-import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
+import { Button } from '../../../../../../components/ui/button';
+import { Heading } from '../../../../../../components/heading';
+import { Separator } from "../../../../../../components/ui/separator";
+import { DataTable } from "../../../../../../components/ui/data-table";
 import { columns, CategoryColumns } from './columns';
+import React from 'react';
 
 
 interface CategoryClientProps{
@@ -25,7 +26,7 @@ return (
     <div className='flex items-center justify-between'>
       <Heading
         title={`Categories (${data.length})`}
-        description="Manage Categories for your store"
+        description="Manage Categories for your foodtruck"
       />
       <Button
         onClick={() => router.push(`/${params.storeId}/categories/create`)}

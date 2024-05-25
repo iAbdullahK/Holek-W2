@@ -1,15 +1,17 @@
 
-import { Heading } from '@/components/heading';
-import { Separator } from '@/components/ui/separator';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Heading } from '../../../../components/heading';
+import { Separator } from '../../../../components/ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../../components/ui/card';
 import { Banknote } from "lucide-react";
-import { formatter } from '@/lib/utils';
-import { getTotalRevenue } from '@/actions/get-total-revenue';
-import { getTotalSales } from '@/actions/get-total-sales';
-import { getTotalProducts } from '@/actions/get-total-products';
-import { Overview } from '@/components/overview';
-import { getGraphTotalRevenue } from '@/actions/get-graph-total-revenue';
-import { getOrderTotalRevenueByCategory } from '@/actions/get-graph-total-revenue-by-category';
+import { formatter } from '../../../../lib/utils';
+import { getTotalRevenue } from '../../../../actions/get-total-revenue';
+import { getTotalSales } from '../../../../actions/get-total-sales';
+import { getTotalProducts } from '../../../../actions/get-total-products';
+import { getGraphTotalRevenue } from '../../../../actions/get-graph-total-revenue';
+import { getOrderTotalRevenueByCategory } from '../../../../actions/get-graph-total-revenue-by-category';
+import React from 'react';
+import GeolocationUpdater from '../_components/GeolocationUpdater';
+import Overview from '../../../../components/overview';
 
 
 interface DashboardOverviewProps{
@@ -18,7 +20,8 @@ interface DashboardOverviewProps{
 
 
 const DashboardOverview = async ({params} : DashboardOverviewProps) => {
-
+  
+    
     const totalRevenue = await getTotalRevenue(params.storeId);
     const totalSales = await getTotalSales(params.storeId);
     const totalProducts = await getTotalProducts(params.storeId);
@@ -29,8 +32,8 @@ const DashboardOverview = async ({params} : DashboardOverviewProps) => {
     return (
         <div className="flex-col">
           <div className="flex-1 space-y-4 p-8 pt-6 bg-white"> 
-            <Heading title="Dashboard" description="Overview of your store" />
-      
+            <Heading title="Dashboard" description="Overview of your foodtruck" />
+            <p className="text-sm text-muted-foreground">Control your foodtruck description and image at settings page</p>
             <Separator className="bg-purple-700" />
       
             <div className="grid gap-8 grid-cols-2 sm:grid-cols-3"> 
@@ -78,7 +81,7 @@ const DashboardOverview = async ({params} : DashboardOverviewProps) => {
             </div>
                   <div className="grid gap-8 sm:grid-cols-2"> 
 
-              <Card className="col-span-2">
+              <Card className="col-span-1">
                 <CardHeader className="flex items-center justify-between flex-row">
                   <CardTitle className="text-lg font-medium">
                     Revenue by Month
@@ -86,7 +89,7 @@ const DashboardOverview = async ({params} : DashboardOverviewProps) => {
                   <Banknote className="w-6 h-6 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  {/* <Overview data={monthlyGraphRevenue}/> */}
+                   <Overview data={monthlyGraphRevenue}/> 
                 </CardContent>
               </Card>
 
@@ -98,13 +101,11 @@ const DashboardOverview = async ({params} : DashboardOverviewProps) => {
                   <Banknote className="w-6 h-6 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  {/* <Overview data={revenueByCategory}/> */}
+                   <Overview data={revenueByCategory}/>
                 </CardContent>
               </Card>
-
-
-
             </div>
+            <GeolocationUpdater storeId={params.storeId} /> 
           </div>
         </div>
       );

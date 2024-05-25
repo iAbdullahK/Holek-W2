@@ -1,8 +1,8 @@
 import Stripe from "stripe";
-import { NextResponse } from "@/node_modules/next/server";
-import {stripe} from "@/lib/stripe";
-import { db } from "@/lib/firebase";
-import { Product } from '@/types-db';
+import { NextResponse } from "../../../../node_modules/next/server";
+import {stripe} from "../../../../lib/stripe";
+import { db } from "../../../../lib/firebase";
+import { Product } from '../../../../types-db';
 import { addDoc,
 collection,
 doc,

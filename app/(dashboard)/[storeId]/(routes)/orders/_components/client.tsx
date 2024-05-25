@@ -2,11 +2,12 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import {Plus} from "lucide-react";
-import { Button } from '@/components/ui/button';
-import { Heading } from '@/components/heading';
-import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
-import { columns, OrdersColumns } from './columns';
+import { Button } from '../../../../../../components/ui/button';
+import { Heading } from '../../../../../../components/heading';
+import { Separator } from "../../../../../../components/ui/separator";
+import { DataTable } from "../../../../../../components/ui/data-table";
+import React from 'react';
+import { OrdersColumns, columns } from './columns';
 
 
 interface OrdersClientProps{
@@ -20,15 +21,14 @@ export const OrdersClient = ({data}: OrdersClientProps) => {
 
 
   return (
-    <>
+  <>
     <div className='flex items-center justify-center justify-between'>
         <Heading title={`Orders (${data.length})`} 
-        description="Manage Orders for your store" 
+        description="Manage Orders for your foodtruck" 
         />
     </div>
     <Separator />
-    <DataTable searchKey="name" columns={columns} data={data}/>
-
-    </>
+    <DataTable searchKey="orderNumber" columns={columns} data={data}/>
+  </>
   )
 };

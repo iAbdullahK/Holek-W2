@@ -1,19 +1,19 @@
 "use client"
 
-import { useRouter, useParams } from '@/node_modules/next/navigation';
+import { useRouter, useParams } from '../../../../../../node_modules/next/navigation';
 import { useState } from 'react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuLabel, } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuLabel, } from '../../../../../../components/ui/dropdown-menu';
+import { Button } from '../../../../../../components/ui/button';
 import { MoreVertical, Copy, Trash, Edit } from 'lucide-react';
-import { toast } from '@/providers/toast-provider';
-import { deleteObject, ref } from 'firebase/storage';
-import { storage } from '@/lib/firebase';
+import { toast } from '../../../../../../providers/toast-provider';
+
 import axios from 'axios';
-import { AlertModel } from '@/components/model/alert-model';
-import { ProductsColumns } from './columns';
+import { AlertModel } from '../../../../../../components/model/alert-model';
+import { ProductColumns } from './columns';
+import React from 'react';
 
 interface CellActionsProps {
-    data: ProductsColumns
+    data: ProductColumns
 }
 
 

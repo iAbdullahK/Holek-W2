@@ -1,23 +1,23 @@
 "use client"
 
-import { Billboards, Billboard } from '@/types-db';
-import { Heading } from '@/components/heading';
-import { Button } from "@/components/ui/button";
+import { Billboards, Billboard } from '../../../../../../../types-db';
+import { Heading } from '../../../../../../../components/heading';
+import { Button } from "../../../../../../../components/ui/button";
 import { Trash } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "../../../../../../../components/ui/separator";
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from '@/providers/toast-provider';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../../../../components/ui/form";
+import { Input } from "../../../../../../../components/ui/input";
+import { toast } from '../../../../../../../providers/toast-provider';
 import axios from 'axios';
-import { AlertModel } from "@/components/model/alert-model";
-import ImageUpload from '@/components/image-upload';
+import { AlertModel } from "../../../../../../../components/model/alert-model";
+import ImageUpload from '../../../../../../../components/image-upload';
 import { deleteObject, ref } from 'firebase/storage';
-import { storage } from '@/lib/firebase';
+import { storage } from '../../../../../../../lib/firebase';
 
 
 interface BillboardFormProps {

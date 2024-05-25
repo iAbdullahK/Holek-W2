@@ -28,8 +28,9 @@ export interface Category {
 export interface Product{
     id: string,
     name: string,
+    cal: number,
     price: number,
-    qty : number,
+    qty: number,
     image: string,
     category: string,
     createdAt?: Timestamp;
@@ -38,12 +39,10 @@ export interface Product{
 
 export interface Order{
     id: string,
-    isPaid: string,
-    phone: string,
+    isPaid: boolean,
+    orderNumber: number,
     orderItems: Product[],
     order_status: string,
     createdAt?: Timestamp;
     updatedAt?: Timestamp;
 }
-
-

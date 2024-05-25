@@ -1,8 +1,9 @@
 
 import { getDoc, doc, getDocs, collection } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Product, Category } from '@/types-db';
+import { db } from '../../../../../../lib/firebase';
+import { Product, Category } from '../../../../../../types-db';
 import ProductForm from './components/product-form';
+import React from 'react';
 
 const ProductPage = async (
     {params} : {params :  

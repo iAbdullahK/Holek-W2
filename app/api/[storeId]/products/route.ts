@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { serverTimestamp, getDoc, doc, addDoc, collection, updateDoc, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Product } from '@/types-db';
+import { db } from '../../../../lib/firebase';
+import { Product, store } from '../../../../types-db';
 
-export const POST = async (req, { params }: { params: { storeId: string } }) => {
+export const POST = async (req, { params }) => {
     try {
         const { userId } = auth();
         const body = await req.json();
@@ -13,7 +13,7 @@ export const POST = async (req, { params }: { params: { storeId: string } }) => 
             return new NextResponse("Un-Authorized!!", { status: 405 });
         }
 
-        const { name, price, image, category, qty } = body;
+        const { name, price, cal, image, category, qty } = body;
 
         if (!name || !price || !image || !category || !qty) {
             return new NextResponse("Required fields are missing!", { status: 400 });
@@ -23,13 +23,13 @@ export const POST = async (req, { params }: { params: { storeId: string } }) => 
             return new NextResponse("Store ID is missing!", { status: 405 });
         }
 
-        const store = await getDoc(doc(db, "stores", params.storeId));
+        const storeDoc = await getDoc(doc(db, "stores", params.storeId));
 
-        if (!store.exists()) {
+        if (!storeDoc.exists()) {
             return new NextResponse("Store not found!", { status: 404 });
         }
 
-        const storeData = store.data();
+        const storeData = storeDoc.data();
         if (storeData?.userId !== userId) {
             return new NextResponse("Un-Authorized Access!", { status: 401 });
         }
@@ -37,6 +37,7 @@ export const POST = async (req, { params }: { params: { storeId: string } }) => 
         const productData = {
             name,
             price,
+            cal,
             image,
             qty,
             category,
@@ -49,6 +50,8 @@ export const POST = async (req, { params }: { params: { storeId: string } }) => 
         await updateDoc(doc(db, "stores", params.storeId, "products", id), {
             ...productData,
             id,
+            storeName: storeData.name, 
+            storeId: storeData.id,     
             updatedAt: serverTimestamp()
         });
 
@@ -64,7 +67,7 @@ export const GET = async ({ params }: { params: { storeId: string } }) => {
         if (!params.storeId) {
             return new NextResponse("Store ID is missing!", { status: 402 });
         }
-
+        
         const productData = (
             await getDocs(collection(doc(db, "stores", params.storeId), "products"))
         ).docs.map(doc => doc.data()) as Product[];

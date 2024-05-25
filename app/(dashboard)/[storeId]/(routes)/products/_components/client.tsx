@@ -2,11 +2,12 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import {Plus} from "lucide-react";
-import { Button } from '@/components/ui/button';
-import { Heading } from '@/components/heading';
-import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
+import { Button } from '../../../../../../components/ui/button';
+import { Heading } from '../../../../../../components/heading';
+import { Separator } from "../../../../../../components/ui/separator";
+import { DataTable } from "../../../../../../components/ui/data-table";
 import { columns, ProductColumns } from './columns';
+import React from 'react';
 
 
 interface ProductsClientProps{
@@ -24,7 +25,7 @@ export const ProductsClient = ({data}: ProductsClientProps) => {
         <div className='flex items-center justify-between'>
           <Heading
             title={`Products (${data.length})`}
-            description="Manage Products for your store"
+            description="Manage Products for your foodtruck"
           />
           <Button
             onClick={() => router.push(`/${params.storeId}/products/create`)}
