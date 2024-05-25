@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { serverTimestamp, getDoc, doc, addDoc, collection, updateDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
 import { Product, Store } from '../../../../types-db';
 
-export const POST = async (req: Request, { params }: { params: { storeId: string } }) => {
+export const POST = async (req, { params }) => {
     try {
         const { userId } = auth();
         const body = await req.json();
@@ -29,8 +29,8 @@ export const POST = async (req: Request, { params }: { params: { storeId: string
             return new NextResponse("Store not found!", { status: 404 });
         }
 
-        const storeData = storeDoc.data() as Store;
-        if (storeData.userId !== userId) {
+        const storeData = storeDoc.data();
+        if (storeData?.userId !== userId) {
             return new NextResponse("Un-Authorized Access!", { status: 401 });
         }
 
@@ -62,7 +62,7 @@ export const POST = async (req: Request, { params }: { params: { storeId: string
     }
 };
 
-export const GET = async ({ params }: { req: NextRequest; params: { storeId: string } }) => {
+export const GET = async ({ params }: { params: { storeId: string } }) => {
     try {
         if (!params.storeId) {
             return new NextResponse("Store ID is missing!", { status: 402 });
