@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'; // Correct import path
+import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { serverTimestamp, getDoc, doc, addDoc, collection, updateDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
@@ -62,7 +62,7 @@ export const POST = async (req: Request, { params }: { params: { storeId: string
     }
 };
 
-export const GET = async ({ params }: { params: { storeId: string } }) => {
+export const GET = async ({ params }: { req: NextRequest; params: { storeId: string } }) => {
     try {
         if (!params.storeId) {
             return new NextResponse("Store ID is missing!", { status: 402 });
