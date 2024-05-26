@@ -7,6 +7,7 @@ import { Store } from '../../../../../types-db';
 import { Separator } from '../../../../../components/ui/separator';
 import React from 'react';
 import { SettingsForm } from './components/settings-form';
+import GeolocationUpdater from '../../_components/GeolocationUpdater';
 
 interface SettingsPageProps {
     params: {
@@ -34,6 +35,7 @@ const SettingsPage = async ({ params }: SettingsPageProps) => {
 
         <div className="flex-1 space-y-5 p-8 pt-6">
             <SettingsForm initialData={store} />
+            <GeolocationUpdater storeId={params.storeId} /> 
         </div>
     </div>
 }

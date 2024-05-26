@@ -85,8 +85,9 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
                 loading={isLoading}
             />
             <div className="flex items-center justify-center">
-                <Heading title="Settings" description="Manage foodtruck Description and Image" />
+                <Heading title="Settings" description="Manage foodtruck description and image" />
             </div>
+            <p style={{ color: 'green' }}>Your location has been updated automatically!!</p>
             <Separator />
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">

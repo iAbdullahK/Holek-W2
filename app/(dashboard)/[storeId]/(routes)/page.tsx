@@ -10,7 +10,6 @@ import { getTotalProducts } from '../../../../actions/get-total-products';
 import { getGraphTotalRevenue } from '../../../../actions/get-graph-total-revenue';
 import { getOrderTotalRevenueByCategory } from '../../../../actions/get-graph-total-revenue-by-category';
 import React from 'react';
-import GeolocationUpdater from '../_components/GeolocationUpdater';
 import Overview from '../../../../components/overview';
 
 
@@ -33,7 +32,8 @@ const DashboardOverview = async ({params} : DashboardOverviewProps) => {
         <div className="flex-col">
           <div className="flex-1 space-y-4 p-8 pt-6 bg-white"> 
             <Heading title="Dashboard" description="Overview of your foodtruck" />
-            <p className="text-sm text-muted-foreground">Control your foodtruck description and image at settings page</p>
+            <p className="text-sm text-muted-foreground">Control your foodtruck description and image and update your location at settings page!!</p>
+
             <Separator className="bg-purple-700" />
       
             <div className="grid gap-8 grid-cols-2 sm:grid-cols-3"> 
@@ -105,7 +105,6 @@ const DashboardOverview = async ({params} : DashboardOverviewProps) => {
                 </CardContent>
               </Card>
             </div>
-            <GeolocationUpdater storeId={params.storeId} /> 
           </div>
         </div>
       );

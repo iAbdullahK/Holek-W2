@@ -85,7 +85,7 @@ export const CellAction = ({ data }: CellActionsProps) => {
                         <Edit className="h-4 w-4 mr-2" />
                         Delivered!
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => onUpdate("Canceled!")}>
+                    <DropdownMenuItem onClick={() => onUpdate("Cancelled!")}>
                         <Edit className="h-4 w-4 mr-2" />
                         Cancel
                     </DropdownMenuItem>

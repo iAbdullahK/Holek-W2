@@ -82,7 +82,7 @@ export const columns: ColumnDef<OrdersColumns>[] = [
         (order_status === "Processing" && "text-orange-500") ||
          (order_status === "Ready!" && "text-yellow-500") ||
          (order_status === "Delivered!" && "text-emerald-500") ||
-         (order_status === "Canceled!" && "text-red-500") 
+         (order_status === "Cancelled!" && "text-red-500") 
         )}
         >{order_status}</p>
       )
